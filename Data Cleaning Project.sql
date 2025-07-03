@@ -39,19 +39,6 @@ select *
 from layoffs_staging
 where company = 'Casper'; -- checking if it has duplicates
 
-with duplicate_cte as
-(
-select *,
-row_number() over(
-partition by company, location, industry, total_laid_off, 
-percentage_laid_off, `date`, stage, country, funds_raised_millions) as row_num
-from layoffs_staging
-)
-delete 
-from duplicate_cte
-where row_num > 1; -- didn't work, can't delete
-
-
 
 CREATE TABLE `layoffs_staging2` (
   `company` text,
